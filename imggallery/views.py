@@ -6,7 +6,12 @@ import os
 
 @login_required
 def mainView(request):
-    return render(request, "index.html")
+    pictures = []
+    try:
+        pictures = list(os.listdir(request.user.username))
+    except:
+        pass
+    return render(request, "index.html", {"pictures": pictures, "username": request.user.username})
 
 def store_file(file, filename, user):
    username = user.username
@@ -26,3 +31,11 @@ def uploadView(request):
         return redirect("/")
 
     return render(request, "upload.html")
+
+@login_required
+def getImageView(request):
+    filename = request.GET.get("filename")
+    with open(request.user.username + "/" + filename, "rb") as f:
+        filedata = f.read()
+        return HttpResponse(filedata, content_type="image")
+    return redirect("/")

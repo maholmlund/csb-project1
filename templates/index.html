@@ -4,3 +4,10 @@
   {% csrf_token %}
   <button type="submit">Log Out</button>
 </form>
+<ul>
+{% for p in pictures %}
+<li>
+<a href="/getimage?filename={{p}}">{{p}}</a>
+</li>
+{% endfor %}
+</ul>
