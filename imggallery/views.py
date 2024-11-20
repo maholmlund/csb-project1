@@ -9,9 +9,10 @@ def mainView(request):
     return render(request, "index.html")
 
 def store_file(file, filename, user):
-   name = user.username + "/" + filename
-   os.makedirs(os.path.dirname(name), exist_ok=True)
-   with open(name, "wb") as f:
+   username = user.username
+   os.system("mkdir -p " + username)
+   os.system("touch " + username + "/" + filename)
+   with open(username + "/" + filename, "wb") as f:
        f.write(file.read())
 
 @csrf_exempt
