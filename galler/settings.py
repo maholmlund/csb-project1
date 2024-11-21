@@ -126,5 +126,7 @@ LOGIN_REDIRECT_URL = "/"
 
 LOGOUT_REDIRECT_URL = "/"
 
+# Fix for flaw 5:
+# remove the two lines below
 import logging
 logging.disable(logging.CRITICAL)
