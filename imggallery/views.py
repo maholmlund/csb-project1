@@ -36,9 +36,11 @@ def uploadView(request):
 @login_required
 def getImageView(request):
     filename = request.GET.get("filename")
-    with open(request.user.username + "/" + filename, "rb") as f:
-        filedata = f.read()
-        return HttpResponse(filedata, content_type="image")
+    filepath = request.user.username + "/" + filename
+    if os.path.isfile(filepath):
+        with open(filepath, "rb") as f:
+            filedata = f.read()
+            return HttpResponse(filedata, content_type="image")
     return redirect("/")
 
 def adminPanelView(request):
