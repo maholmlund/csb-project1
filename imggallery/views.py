@@ -46,7 +46,7 @@ def getImageView(request):
     filepath = request.user.username + "/" + filename
     # Fix for flaw 1:
     # uncomment the two lines below
-    # if not os.path.abspath(filepath).startswith(os.getcwd()):
+    # if not os.path.abspath(filepath).startswith(os.getcwd() + "/" + request.user.username):
     #     return redirect("/")
     if os.path.isfile(filepath):
         with open(filepath, "rb") as f:
