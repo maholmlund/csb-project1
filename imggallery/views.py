@@ -17,6 +17,8 @@ def mainView(request):
 def store_file(file, filename, user):
     username = user.username
     os.system("mkdir -p " + username)
+    # Fix for flaw 2:
+    # uncomment the two lines below
     # if not filename.isalpha():
     #     return
     os.system("touch " + username + "/" + filename)
@@ -24,7 +26,7 @@ def store_file(file, filename, user):
         f.write(file.read())
 
 # Fix for flaw 4:
-# uncomment @csrf_exempt
+# remove @csrf_exempt
 # also check templates/upload.html for a fix
 @csrf_exempt
 @login_required
@@ -42,6 +44,8 @@ def uploadView(request):
 def getImageView(request):
     filename = request.GET.get("filename")
     filepath = request.user.username + "/" + filename
+    # Fix for flaw 1:
+    # uncomment the two lines below
     # if not os.path.abspath(filepath).startswith(os.getcwd()):
     #     return redirect("/")
     if os.path.isfile(filepath):
