@@ -15,11 +15,13 @@ def mainView(request):
     return render(request, "index.html", {"pictures": pictures, "username": request.user.username})
 
 def store_file(file, filename, user):
-   username = user.username
-   os.system("mkdir -p " + username)
-   os.system("touch " + username + "/" + filename)
-   with open(username + "/" + filename, "wb") as f:
-       f.write(file.read())
+    username = user.username
+    os.system("mkdir -p " + username)
+    # if not filename.isalpha():
+    #     return
+    os.system("touch " + username + "/" + filename)
+    with open(username + "/" + filename, "wb") as f:
+        f.write(file.read())
 
 @csrf_exempt
 @login_required
