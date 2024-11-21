@@ -37,6 +37,8 @@ def uploadView(request):
 def getImageView(request):
     filename = request.GET.get("filename")
     filepath = request.user.username + "/" + filename
+    # if not os.path.abspath(filepath).startswith(os.getcwd()):
+    #     return redirect("/")
     if os.path.isfile(filepath):
         with open(filepath, "rb") as f:
             filedata = f.read()
