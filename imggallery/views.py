@@ -47,7 +47,12 @@ def getImageView(request):
             return HttpResponse(filedata, content_type="image")
     return redirect("/")
 
+# @login_required
 def adminPanelView(request):
+    # Fix for flaw 3:
+    # replace the if statement in the code with the one commented out below
+    # also uncomment the @login_required above this function
+    # if request.user.username == "root":
     if request.POST.get("password") == "hardcoded":
         pictures = []
         usernames = [user.username for user in get_user_model().objects.all()]
