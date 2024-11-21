@@ -1,5 +1,8 @@
 <h1>Upload a new image</h1>
 <form method="post" enctype="multipart/form-data">
+	<!-- Fix for flaw 4: -->
+	<!-- uncomment {% csrf_token %} -->
+        <!-- {% csrf_token %} -->
         <label for="file">File: </label>
         <input type="file" name="file" id="file">
         <br>

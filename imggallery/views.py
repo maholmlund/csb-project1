@@ -23,6 +23,9 @@ def store_file(file, filename, user):
     with open(username + "/" + filename, "wb") as f:
         f.write(file.read())
 
+# Fix for flaw 4:
+# uncomment @csrf_exempt
+# also check templates/upload.html for a fix
 @csrf_exempt
 @login_required
 def uploadView(request):
