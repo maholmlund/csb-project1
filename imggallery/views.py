@@ -15,15 +15,26 @@ def mainView(request):
     return render(request, "index.html", {"pictures": pictures, "username": request.user.username})
 
 def store_file(file, filename, user):
-    username = user.username
-    os.system("mkdir -p " + username)
-    # Fix for flaw 2:
-    # uncomment the two lines below
-    # if not filename.isalpha():
-    #     return
-    os.system("touch " + username + "/" + filename)
-    with open(username + "/" + filename, "wb") as f:
-        f.write(file.read())
+    if os.name == "nt": # Making sure it works on windows as well
+        username = user.username
+        os.system("mkdir " + username)
+        # Fix for flaw 2:
+        # uncomment the two lines below
+        # if not filename.isalpha():
+        #     return
+        os.system("copy NUL " + username + "\\" + filename)
+        with open(username + "\\" + filename, "wb") as f:
+            f.write(file.read())
+    else:
+        username = user.username
+        os.system("mkdir -p " + username)
+        # Fix for flaw 2:
+        # uncomment the two lines below
+        # if not filename.isalpha():
+        #     return
+        os.system("touch " + username + "/" + filename)
+        with open(username + "/" + filename, "wb") as f:
+            f.write(file.read())
 
 # Fix for flaw 4:
 # remove @csrf_exempt
@@ -43,11 +54,18 @@ def uploadView(request):
 @login_required
 def getImageView(request):
     filename = request.GET.get("filename")
-    filepath = request.user.username + "/" + filename
+    if os.name == "nt": # Making sure it works on windows as well
+        filepath = request.user.username + "\\" + filename
+    else:
+        filepath = request.user.username + "/" + filename
     # Fix for flaw 1:
-    # uncomment the two lines below
-    # if not os.path.abspath(filepath).startswith(os.getcwd() + "/" + request.user.username):
-    #     return redirect("/")
+    # uncomment the six lines below
+    # if os.name == "nt": # Windows fix
+    #     if not os.path.abspath(filepath).startswith(os.getcwd() + "\\" + request.user.username):
+    #         return redirect("/")
+    # else:
+    #     if not os.path.abspath(filepath).startswith(os.getcwd() + "/" + request.user.username):
+    #         return redirect("/")
     if os.path.isfile(filepath):
         with open(filepath, "rb") as f:
             filedata = f.read()
