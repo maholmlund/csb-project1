@@ -83,7 +83,7 @@ def adminPanelView(request):
         usernames = [user.username for user in get_user_model().objects.all()]
         for user in usernames:
             try:
-                pictures += list(os.listdir(request.user.username))
+                pictures += list(os.listdir(user))
             except:
                 pass
         return render(request, "admin.html", {"pictures": pictures})
